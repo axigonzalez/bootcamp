@@ -15,6 +15,6 @@ public class SaludaImpl implements Saluda {
 
 	@Override
 	public void saluda(String nombre) {
-		System.out.println("Hola " + nombre);
+		entorno.write("Hola " + nombre);
 	}
 }
