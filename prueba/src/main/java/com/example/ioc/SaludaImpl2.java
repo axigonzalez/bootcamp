@@ -17,4 +17,11 @@ public class SaludaImpl2 implements Saluda {
 	public void saluda(String nombre) {
 		System.out.println("Hola " + nombre);
 	}
+
+
+	@Override
+	public int getContador() {
+		// TODO Auto-generated method stub
+		return entorno.getContador();
+	}
 }

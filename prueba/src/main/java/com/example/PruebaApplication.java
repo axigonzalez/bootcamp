@@ -16,6 +16,9 @@ public class PruebaApplication implements CommandLineRunner {
 	}
 	
 	@Autowired
+	Saluda saluda2;
+	
+	@Autowired
 	Saluda saluda;
 	
 	
@@ -23,7 +26,11 @@ public class PruebaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.err.println("Aplicación arrancada");
 		//var saluda = new Saluda();
+		System.out.println(saluda2.getContador());
 		saluda.saluda("mundo");
+		saluda.saluda("mundo");
+		System.out.println(saluda2.getContador());
+		System.out.println(saluda.getContador());
 		
 	}
 

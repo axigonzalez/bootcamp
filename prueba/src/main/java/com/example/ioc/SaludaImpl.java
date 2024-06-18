@@ -1,8 +1,10 @@
 package com.example.ioc;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class SaludaImpl implements Saluda {
 	
 	Entorno entorno;
@@ -16,5 +18,12 @@ public class SaludaImpl implements Saluda {
 	@Override
 	public void saluda(String nombre) {
 		entorno.write("Hola " + nombre);
+	}
+
+
+	@Override
+	public int getContador() {
+		// TODO Auto-generated method stub
+		return  entorno.getContador();
 	}
 }
