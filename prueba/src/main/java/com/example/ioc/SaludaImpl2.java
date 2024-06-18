@@ -1,5 +1,7 @@
 package com.example.ioc;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -24,5 +26,9 @@ public class SaludaImpl2 implements Saluda {
 	@Override
 	public int getContador() {
 		return entorno.getContador();
+	}
+	
+	public Optional <Entorno>getEntorno(){
+		return Optional.ofNullable(entorno);
 	}
 }
