@@ -38,8 +38,8 @@ public class PruebaApplication implements CommandLineRunner {
 		System.err.println("Aplicación arrancada");
 		//var saluda = new Saluda();
 		System.out.println(saluda.getContador());
-		saluda.saluda("mundo");
-		saluda2.saluda("mundo");
+		saluda.saluda(null);
+		saluda2.saluda("world");
 		System.out.println(saluda.getContador());
 		System.out.println(saluda2.getContador());
 		System.out.println(rango.getMin() + " -> " + rango.getMax());

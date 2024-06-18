@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import io.micrometer.common.lang.NonNull;
+
 @Component("saludaEs")
 @Qualifier("es")
 @Scope("prototype")
@@ -18,8 +20,11 @@ public class SaludaImpl implements Saluda {
 
 
 	@Override
-	public void saluda(String nombre) {
-		entorno.write("Hola " + nombre);
+	public void saluda(@lombok.NonNull String nombre) {
+		if(nombre == null) {
+			throw new IllegalArgumentException("El nombre es obligatorio");
+		}
+		entorno.write("Hola " + nombre.toUpperCase());
 	}
 
 
