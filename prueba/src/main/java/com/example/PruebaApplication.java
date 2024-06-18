@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.example.ioc.Rango;
 import com.example.ioc.Saluda;
 import com.example.ioc.SaludaImpl2;
 
@@ -25,6 +26,9 @@ public class PruebaApplication implements CommandLineRunner {
 	@Qualifier("en")
 	Saluda saluda2;
 	
+	@Autowired
+	Rango rango;
+	
 //	@Autowired(required = false)
 //	SaludaImpl2 kkImpl2;
 	
@@ -38,6 +42,7 @@ public class PruebaApplication implements CommandLineRunner {
 		saluda2.saluda("mundo");
 		System.out.println(saluda.getContador());
 		System.out.println(saluda2.getContador());
+		System.out.println(rango.getMin() + " -> " + rango.getMax());
 		
 	}
 
