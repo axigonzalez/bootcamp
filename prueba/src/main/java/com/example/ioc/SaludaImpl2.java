@@ -28,7 +28,7 @@ public class SaludaImpl2 implements Saluda {
 		return entorno.getContador();
 	}
 	
-	public Optional <Entorno>getEntorno(){
+	public Optional <Entorno> getEntorno(){
 		return Optional.ofNullable(entorno);
 	}
 }
