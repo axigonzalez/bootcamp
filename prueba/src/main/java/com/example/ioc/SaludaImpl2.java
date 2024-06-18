@@ -2,7 +2,7 @@ package com.example.ioc;
 
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component("saludaEn")
 public class SaludaImpl2 implements Saluda {
 	
 	Entorno entorno;
@@ -15,7 +15,7 @@ public class SaludaImpl2 implements Saluda {
 
 	@Override
 	public void saluda(String nombre) {
-		System.out.println("Hola " + nombre);
+		System.out.println("Hello " + nombre);
 	}
 
 
