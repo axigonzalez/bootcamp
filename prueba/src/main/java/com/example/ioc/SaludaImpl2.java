@@ -1,8 +1,10 @@
 package com.example.ioc;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component("saludaEn")
+@Qualifier("en")
 public class SaludaImpl2 implements Saluda {
 	
 	Entorno entorno;
