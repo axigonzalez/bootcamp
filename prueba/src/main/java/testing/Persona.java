@@ -2,6 +2,8 @@ package testing;
 
 import java.util.Optional;
 
+import org.hibernate.validator.internal.engine.groups.ValidationOrder;
+
 public class Persona {
 
 	private int id;
@@ -52,9 +54,10 @@ public class Persona {
 	}
 	
 	public void setApellidos(String apellidos) {
-		if(apellidos == null) {
+		if(apellidos == null || "".equals(apellidos.trim())) {
 			throw new IllegalArgumentException("Faltan los apellidos");
 		}
+
 		this.apellidos = apellidos;
 	}
 	

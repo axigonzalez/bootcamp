@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.platform.commons.annotation.Testable;
 
 import lombok.experimental.var;
@@ -29,11 +31,29 @@ class PersonaTest {
 			}
 		}
 		
-		@Nested
-		class KO {
-			
+		@ParameterizedTest(name = "{0} {1}")
+		@CsvSource(value = {"1, Pepito", "2, Pepito Grillo", "3,Grillo,Pepito", "4, ''"})
+		void soloNombre(int id, String nombre) {
+			var persona = new Persona(id, nombre);
+			assertNotNull(persona);
+			assertAll("Persona",
+			() -> assertEquals(id, persona.getId(), "id"),
+			() -> assertEquals(nombre, persona.getNombre(), "nombre"),
+			() -> assertTrue(persona.getApellidos().isEmpty(), "apellidos"));
 		}
 	}
+		
+		@Nested
+		class KO {
+			@ParameterizedTest(name = "{0} {1}")
+			@CsvSource(value = {"3,", "4, ''", "5, '   '"})
+			void soloNombre(int id, String nombre) {
+				assertThrows(Exception.class, () -> new Persona(id, nombre));
+			}
+		}
+			
+		
+	
 	@Test
 	void test() {
 		fail("Not yet implemented");
