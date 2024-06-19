@@ -55,7 +55,7 @@ class PersonaTest {
 			assertAll("Persona",
 			() -> assertEquals(args.getInteger(0), persona.getId(), "id"),
 			() -> assertEquals(args.getString(1), persona.getNombre(), "nombre"),
-			() -> assertTrue(persona.getApellidos().isEmpty(), "apellidos"));
+			() -> assertTrue(args.size() == 3 ? persona.getApellidos().isPresent(): persona.getApellidos().isEmpty(), "apellidos"));
 		}
 	}
 		
