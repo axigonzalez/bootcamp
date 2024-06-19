@@ -45,7 +45,7 @@ class PersonaTest {
 	}
 	
 		@ParameterizedTest(name = "{0} {1}")
-		@CsvSource(value = {"1, Pepito", "2, Pepito Grillo", "3,Grillo,Pepito"})
+		@CsvSource(value = {"1, Pepito", "2, Pepito Grillo", "3,'Grillo,Pepito'"})
 		void soloNombre(ArgumentsAccessor args) {
 			var persona = args.size() == 3 ? 
 					new Persona(args.getInteger(0), args.getString(1), args.getString(2)) :
