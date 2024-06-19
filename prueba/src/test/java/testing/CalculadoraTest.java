@@ -10,6 +10,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 
 import lombok.experimental.var;
 
@@ -40,15 +44,12 @@ class CalculadoraTest {
 		@Nested
 		class OK {
 			
-			@Test
+			@ParameterizedTest(name = "Caso {index}: {0} + {1} = {2}")
 			@DisplayName("Suma dos enteros")
-			@RepeatedTest(value = 5, name = "{displayName} {currentRepetition}/{totalRepetitions}")
-			void testAdd() {
-				var calculadora = new Calculadora();
-				
-				var result = calculadora.add(1, 2);
-				
-				assertEquals(3, result);
+			@CsvSource(value = {"1,2,3", "3,-1,2", "-1,2,1", "-2,-3,-5", "0,1,1", "0.1, 0.2, 0.3"})
+			void testAdd(double operando1, double operando2, double resultado) {
+				var calculadora  = new Calculadora();
+				assertEquals(resultado, calculadora.add(operando1, operando2));
 			}
 			
 			@Test
