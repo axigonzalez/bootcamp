@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.platform.commons.annotation.Testable;
 
@@ -42,6 +43,21 @@ class PersonaTest {
 			() -> assertTrue(persona.getApellidos().isEmpty(), "apellidos"));
 		}
 	}
+	
+		@ParameterizedTest(name = "{0} {1}")
+		@CsvSource(value = {"1, Pepito", "2, Pepito Grillo", "3,Grillo,Pepito"})
+		void soloNombre(ArgumentsAccessor args) {
+			var persona = args.size() == 3 ? 
+					new Persona(args.getInteger(0), args.getString(1), args.getString(2)) :
+					new Persona(args.getInteger(0), args.getString(1));	
+				
+			assertNotNull(persona);
+			assertAll("Persona",
+			() -> assertEquals(args.getInteger(0), persona.getId(), "id"),
+			() -> assertEquals(args.getString(1), persona.getNombre(), "nombre"),
+			() -> assertTrue(persona.getApellidos().isEmpty(), "apellidos"));
+		}
+	}
 		
 		@Nested
 		class KO {
@@ -50,7 +66,7 @@ class PersonaTest {
 			void soloNombre(int id, String nombre) {
 				assertThrows(Exception.class, () -> new Persona(id, nombre));
 			}
-		}
+		
 			
 		
 	
