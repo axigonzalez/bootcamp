@@ -1,6 +1,7 @@
 package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -56,6 +57,7 @@ class PersonaTest {
 			() -> assertEquals(args.getInteger(0), persona.getId(), "id"),
 			() -> assertEquals(args.getString(1), persona.getNombre(), "nombre"),
 			() -> assertTrue(args.size() == 3 ? persona.getApellidos().isPresent(): persona.getApellidos().isEmpty(), "apellidos"));
+//			assumeFalse(true, "falta los apellidos");
 		}
 	}
 		
