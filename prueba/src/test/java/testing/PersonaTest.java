@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -21,6 +22,8 @@ class PersonaTest {
 		@Nested
 		class OK {
 			@Test
+//			@Tag("smoke")
+			@smoke
 			void soloNombre() {
 //				var persona = new Persona(1, "Pepe");
 				var persona = new Persona(1, "Juan");
