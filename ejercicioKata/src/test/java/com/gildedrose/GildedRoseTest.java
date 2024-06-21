@@ -123,7 +123,17 @@ class GildedRoseTest {
     
     @ParameterizedTest(name = "Caso {index}: Nombre: {0}  SellIn: {1}  Quality: {2}")
 	@DisplayName("Prueba de productos")
-	@CsvSource(value = {"Item,5,23,22", "Item,-2,19,17", "Aged Brie,-2,19,21", "Aged Brie,-2,19,21"})
+	@CsvSource(value = {"Item,5,23,22",
+			"Item,-2,19,17",
+			"Aged Brie,5,19,20",
+			"Aged Brie,-2,19,21", 
+			"Aged Brie,-3,49,50",
+			"Backstage passes to a TAFKAL80ETC concert, 7, 38,40",
+			"Backstage passes to a TAFKAL80ETC concert, 7, 49,50",
+			"Backstage passes to a TAFKAL80ETC concert, 5, 47,50",
+			"Backstage passes to a TAFKAL80ETC concert, 5, 48,50",
+			"Backstage passes to a TAFKAL80ETC concert, 5, 49,50",
+			"Backstage passes to a TAFKAL80ETC concert,0, 38,0"})
 	void testAdd(String name, int sellin, int quality, int result) {
     	Item[] items = new Item[] { new Item(name, sellin, quality) };
         GildedRose app = new GildedRose(items);
