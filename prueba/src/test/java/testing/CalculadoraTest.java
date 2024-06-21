@@ -1,6 +1,9 @@
 package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -113,6 +116,15 @@ class CalculadoraTest {
 	}
 	
 
+	@Test
+	void simula() {
+		Calculadora calculadora = mock(Calculadora.class);
+		when(calculadora.add(2, 2)).thenReturn(3.0).thenReturn(4.0);
+//		when(calculadora.add(anyDouble(), anyDouble())).thenReturn(3.0);
+		
+		assertEquals(3, calculadora.add(2, 2));
+		assertEquals(4, calculadora.add(2, 2));
+	}
 	
 	
 }
