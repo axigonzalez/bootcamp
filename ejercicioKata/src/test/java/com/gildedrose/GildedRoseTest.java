@@ -135,7 +135,11 @@ class GildedRoseTest {
 			"Backstage passes to a TAFKAL80ETC concert, 5, 48,50",
 			"Backstage passes to a TAFKAL80ETC concert, 5, 49,50",
 			"Backstage passes to a TAFKAL80ETC concert, 5, 50,50",
-			"Backstage passes to a TAFKAL80ETC concert,0, 38,0"})
+			"Backstage passes to a TAFKAL80ETC concert,0, 38,0",
+			"Conjured Mana Cake, 5, 50,48",
+			"Conjured Mana Cake, 5, 1,0",
+			"Conjured Mana Cake, -2, 50,46",
+			"Conjured Mana Cake, -2, 3,0"})
 	void testAdd(String name, int sellin, int quality, int result) {
     	Item[] items = new Item[] { new Item(name, sellin, quality) };
         GildedRose app = new GildedRose(items);
