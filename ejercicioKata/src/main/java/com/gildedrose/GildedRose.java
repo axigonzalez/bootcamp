@@ -14,25 +14,11 @@ class GildedRose {
 			switch (items[i].name) {
 
 			case "Aged Brie":
-
-				if (items[i].sellIn > 0) {
-					FuncionesAritmeticas.suma1(items[i]);
-				} else if (items[i].sellIn <= 0) {
-					FuncionesAritmeticas.suma2(items[i]);
-				}
-				FuncionesAritmeticas.resta1Selling(items[i]);
+				agedBrieQuality(items[i]);
 				break;
 
 			case "Backstage passes to a TAFKAL80ETC concert":
-
-				if (items[i].sellIn > 5 && items[i].sellIn <= 10) {
-					FuncionesAritmeticas.suma2(items[i]);
-				} else if (items[i].sellIn > 0 && items[i].sellIn <= 5) {
-					FuncionesAritmeticas.suma3(items[i]);
-				} else {
-					items[i].quality = 0;
-				}
-				FuncionesAritmeticas.resta1Selling(items[i]);
+				backstageQuality(items[i]);
 				break;
 
 			case "Sulfuras, Hand of Ragnaros":
@@ -40,16 +26,56 @@ class GildedRose {
 				break;
 
 			default:
-				if (items[i].sellIn > 0) {
-					FuncionesAritmeticas.resta1(items[i]);
-				} else if (items[i].sellIn <= 0) {
-					FuncionesAritmeticas.resta2(items[i]);
-				}
-				FuncionesAritmeticas.resta1Selling(items[i]);
+				itemQuality(items[i]);
 				break;
 			}
 		}
 	}
 
+	private void itemQuality(Item item) {
+		if (item.sellIn > 0 && item.quality > 0) {
+			item.quality --; 
+		}
+		if (item.sellIn <= 0 && item.quality > 1) {
+			item.quality -= 2;
+		}else if(item.sellIn <= 0 && item.quality > 0){
+			item.quality --;
+		}
+		item.sellIn --;
+
+	}
+
+	private void backstageQuality(Item item) {
+		if (item.sellIn > 5 && item.sellIn <= 10) {
+			if (item.quality == 49) {
+				item.quality ++;
+			}else {
+				item.quality += 2;
+			}
+		} else if (item.sellIn > 0 && item.sellIn <= 5) {
+			if (item.quality == 49) {
+				item.quality ++;
+			}else if (item.quality == 48) {
+				item.quality += 2;
+			}else if (item.quality != 50){
+				item.quality += 3;
+			}
+		} else if(item.sellIn == 0 ) {
+			item.quality = 0;
+		}
+		item.sellIn --;
+	}
+
+	private void agedBrieQuality(Item item ) {
+		if (item.sellIn > 0 && item.quality < 50) {
+			item.quality ++;
+		} else if (item.sellIn <= 0 && item.quality <= 48) {
+			item.quality += 2;
+		}else if (item.sellIn <= 0 && item.quality == 49)
+			item.quality ++;
+		item.sellIn --;
+	}
+
+	
 	
 }
