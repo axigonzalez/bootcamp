@@ -49,7 +49,7 @@ class GildedRose {
 		if (item.sellIn > 5 && item.sellIn <= 10) {
 			if (item.quality == 49) {
 				item.quality ++;
-			}else {
+			}else if (item.quality != 50) {
 				item.quality += 2;
 			}
 		} else if (item.sellIn > 0 && item.sellIn <= 5) {
