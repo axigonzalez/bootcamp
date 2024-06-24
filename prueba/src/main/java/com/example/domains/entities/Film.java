@@ -69,6 +69,7 @@ public class Film implements Serializable {
 	//bi-directional many-to-one association to Inventory
 	@OneToMany(mappedBy="film")
 	private List<Inventory> inventories;
+	
 
 	public Film() {
 	}
