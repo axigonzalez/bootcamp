@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Sort;
 
 import com.example.domains.contracts.repositories.ActorRepository;
 import com.example.domains.entities.Actor;
@@ -41,17 +42,23 @@ public class PruebaApplication implements CommandLineRunner {
 //		System.out.println(dao.save(actor));
 //		
 		var item = dao.findById(201);
-		if(item.isEmpty())
-			System.err.println("No encontrado");
-		
-		if(!item.isEmpty()) {
-			var actor= item.get();
-			actor.setFirstName(actor.getFirstName().toUpperCase());
-			dao.save(actor);
-		}
+//		if(item.isEmpty())
+//			System.err.println("No encontrado");
+//		
+//		if(!item.isEmpty()) {
+//			var actor= item.get();
+//			actor.setFirstName(actor.getFirstName().toUpperCase());
+//			dao.save(actor);
+//		}
 //			System.out.println(item.get());
+//		dao.findAll().forEach(System.out::println);
 		
-//		dao.findAll().forEach(System.out::println);	
+//		dao.findTop5ByLastNameStartingWithOrderByFirstNameDesc("P").forEach(System.out::println);
+//		dao.findTop5ByLastNameStartingWith("P", Sort.by("LastName").ascending()).forEach(System.out::println);
+
+		dao.findByActorIdGreaterThanEqual(200).forEach(System.out::println);
+		dao.findAll((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("actorId"), 200));
+	
 		}
 	
 //	@Autowired
