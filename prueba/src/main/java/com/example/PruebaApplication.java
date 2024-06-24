@@ -57,8 +57,9 @@ public class PruebaApplication implements CommandLineRunner {
 //		dao.findTop5ByLastNameStartingWith("P", Sort.by("LastName").ascending()).forEach(System.out::println);
 
 		dao.findByActorIdGreaterThanEqual(200).forEach(System.out::println);
-		dao.findAll((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("actorId"), 200));
-	
+		dao.findAll((root, query, builder) -> builder.greaterThanOrEqualTo(root.get("actorId"), 200)).forEach(System.out::println);;
+		dao.findAll((root, query, builder) -> builder.lessThan(root.get("actorId"), 10)).forEach(System.out::println);;
+
 		}
 	
 //	@Autowired
