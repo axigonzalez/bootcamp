@@ -1,5 +1,7 @@
 package com.example;
 
+import java.awt.event.ItemEvent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,6 +10,7 @@ import org.springframework.data.domain.Sort;
 
 import com.example.domains.contracts.repositories.ActorRepository;
 import com.example.domains.entities.Actor;
+import com.example.domains.entities.models.ActorDTO;
 import com.example.ioc.Entorno;
 import com.example.ioc.Rango;
 import com.example.ioc.Saluda;
@@ -68,6 +71,11 @@ public class DemoApplication implements CommandLineRunner {
 //		} else {
 //			actor.getErrors().forEach(System.out::println);
 //		}
+//		var actor = new ActorDTO(0, "FROM", "DTO");
+//		dao.save(ActorDTO.from(actor));
+//		dao.findAll().forEach(item -> System.out.println(ActorDTO.from(item)));
+		dao.readByActorIdGreaterThanEqual(200).forEach(System.out::println);
+		dao.queryByActorIdGreaterThanEqual(200).forEach(item -> System.out.println(item.getId() + " " + item.getNombre()));
 	}
 
 	/*
