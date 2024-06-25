@@ -32,6 +32,6 @@ public class FilmDTO implements Serializable{
 				source.getTitle());
 
 				
-	}{
+	}
 
 }
