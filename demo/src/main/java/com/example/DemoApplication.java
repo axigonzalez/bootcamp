@@ -10,9 +10,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import com.example.domains.contracts.repositories.ActorRepository;
+import com.example.domains.contracts.services.ActorService;
 import com.example.domains.entities.Actor;
 import com.example.domains.entities.models.ActorDTO;
 import com.example.domains.entities.models.ActorShort;
+import com.example.domains.services.ActorServiceImpl;
 import com.example.ioc.Entorno;
 import com.example.ioc.Rango;
 import com.example.ioc.Saluda;
@@ -25,10 +27,21 @@ import jakarta.transaction.Transactional;
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	@Autowired
+	ActorService srv;
+	
+	public void run(String... args) throws Exception {
+		System.err.println("Aplicación arrancada...");
+		srv.getByProjection(ActorDTO.class).forEach(System.out::println);
+	}
+	
+	/*
 	@Autowired
 	ActorRepository dao;
 
