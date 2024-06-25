@@ -21,6 +21,7 @@ public class CatalogoApplication {
 	public void run(String... args) throws Exception {
 		System.err.println("Aplicación arrancada...");
 		srv.getByProjection(CategoryDTO.class).forEach(System.out::println);
+		//probando git
 	}
 	
 }
