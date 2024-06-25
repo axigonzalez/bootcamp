@@ -13,18 +13,14 @@ import com.catalogo.domains.entities.Category;
 
 public interface CategoryRepository extends JpaRepository<Category, Integer>, JpaSpecificationExecutor<Category>, 
 RepositoryWithProjections {
-	List<Category> findTop5ByLastNameStartingWithOrderByFirstNameDesc(String prefijo);
-	List<Category> findTop5ByLastNameStartingWith(String prefijo, Sort orderBy);
-	
-	List<Category> findByCategoryIdGreaterThanEqual(int actorId);
+
+	List<Category> findByCategoryIdGreaterThanEqual(int categoryId);
 	@Query(value = "from Category c where c.categoryId >= ?1")
 	List<Category> findByJPQL(int actorId);
 	@Query(value = "SELECT * FROM category WHERE category_id >= ?1", nativeQuery = true)
 	List<Category> findBySQL(int id);
 	
-//	List<ActorDTO> readByActorIdGreaterThanEqual(int actorId);
-//	List<ActorShort> queryByActorIdGreaterThanEqual(int actorId);
-	
+
 	<T> List<T> findByCategoryIdGreaterThanEqual(int categoryId, Class<T> proyeccion);
 	
 }

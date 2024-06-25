@@ -11,21 +11,21 @@ import com.catalogo.domains.core.contracts.repositories.RepositoryWithProjection
 import com.catalogo.domains.entities.Language;
 import com.catalogo.domains.entities.models.ActorDTO;
 import com.catalogo.domains.entities.models.ActorShort;
+import com.catalogo.domains.entities.models.LanguageDTO;
+import com.catalogo.domains.entities.models.LanguageShort;
 
 
 public interface LanguageRepository extends JpaRepository<Language, Integer>, JpaSpecificationExecutor<Language>, 
 RepositoryWithProjections {
-	List<Language> findTop5ByLastNameStartingWithOrderByFirstNameDesc(String prefijo);
-	List<Language> findTop5ByLastNameStartingWith(String prefijo, Sort orderBy);
-	
+
 	List<Language> findByLanguageIdGreaterThanEqual(int languageId);
-	@Query(value = "from Language a where a.actorId >= ?1")
+	@Query(value = "from Language l where l.languageId >= ?1")
 	List<Language> findByJPQL(int actorId);
 	@Query(value = "SELECT * FROM language WHERE language_id >= ?1", nativeQuery = true)
 	List<Language> findBySQL(int id);
 	
-	List<ActorDTO> readByLanguageIdGreaterThanEqual(int languageId);
-	List<ActorShort> queryByLanguageIdGreaterThanEqual(int languageId);
+	List<LanguageDTO> readByLanguageIdGreaterThanEqual(int languageId);
+	List<LanguageShort> queryByLanguageIdGreaterThanEqual(int languageId);
 	
 	<T> List<T> findByLanguageIdGreaterThanEqual(int languageId, Class<T> proyeccion);
 	
