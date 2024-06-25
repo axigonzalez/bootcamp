@@ -2,11 +2,15 @@ package com.catalogo.domains.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
 import com.catalogo.domains.core.entities.EntityBase;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -28,11 +32,13 @@ public class Category extends EntityBase<Actor> implements Serializable {
 	private int categoryId;
 
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
+	@JsonFormat(pattern = "yyyy- MM-dd hh:mm:ss")
 	@JsonIgnore
 	private Timestamp lastUpdate;
 
 	@Column(nullable=false, length=25)
 	@JsonProperty("categoria")
+	@NotBlank
 	private String name;
 
 	//bi-directional many-to-one association to FilmCategory
