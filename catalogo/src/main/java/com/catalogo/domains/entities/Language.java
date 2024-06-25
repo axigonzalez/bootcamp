@@ -4,6 +4,9 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
+
+import com.catalogo.domains.core.entities.EntityBase;
 
 
 /**
@@ -13,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="language")
 @NamedQuery(name="Language.findAll", query="SELECT l FROM Language l")
-public class Language implements Serializable {
+public class Language extends EntityBase<Language> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -36,6 +39,16 @@ public class Language implements Serializable {
 	private List<Film> filmsVO;
 
 	public Language() {
+	}
+
+	public Language(int languageId, String name) {
+		this.languageId = languageId;
+		this.name = name;
+	}
+
+	public Language(int languageId) {
+		super();
+		this.languageId = languageId;
 	}
 
 	public int getLanguageId() {
@@ -104,6 +117,31 @@ public class Language implements Serializable {
 		filmsVO.setLanguageVO(null);
 
 		return filmsVO;
+	}
+
+	@Override
+	public String toString() {
+		return "Language [languageId=" + languageId + ", lastUpdate=" + lastUpdate + ", name=" + name + ", films="
+				+ films + ", filmsVO=" + filmsVO + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(films, filmsVO, languageId, lastUpdate, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Language other = (Language) obj;
+		return Objects.equals(films, other.films) && Objects.equals(filmsVO, other.filmsVO)
+				&& languageId == other.languageId && Objects.equals(lastUpdate, other.lastUpdate)
+				&& Objects.equals(name, other.name);
 	}
 
 }
