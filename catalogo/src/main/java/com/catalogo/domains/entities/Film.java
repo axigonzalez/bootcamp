@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.catalogo.domains.core.entities.EntityBase;
+
 
 /**
  * The persistent class for the film database table.
@@ -14,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="film")
 @NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
-public class Film implements Serializable {
+public class Film extends EntityBase<Film> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -72,6 +74,21 @@ public class Film implements Serializable {
 
 	public Film() {
 	}
+	
+
+	public Film(int filmId) {
+		super();
+		this.filmId = filmId;
+	}
+
+	public Film(int filmId, String description, Short releaseYear, String title) {
+		super();
+		this.filmId = filmId;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.title = title;
+	}
+
 
 	public int getFilmId() {
 		return this.filmId;
