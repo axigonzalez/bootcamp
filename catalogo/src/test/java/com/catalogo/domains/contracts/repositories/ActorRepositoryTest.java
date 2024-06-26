@@ -30,7 +30,7 @@ public class ActorRepositoryTest {
 
     @Test
     public void testFindTop5ByLastNameStartingWithOrderByFirstNameDesc() {
-        // Mocking repository method
+
         String prefix = "Doe";
         Sort orderBy = Sort.by(Sort.Order.desc("firstName"));
 
@@ -52,7 +52,7 @@ public class ActorRepositoryTest {
 
     @Test
     public void testFindTop5ByLastNameStartingWith() {
-        // Mocking repository method
+
         String prefix = "Doe";
         Sort orderBy = Sort.by(Sort.Order.asc("firstName"));
 
@@ -74,7 +74,7 @@ public class ActorRepositoryTest {
 
     @Test
     public void testFindByActorIdGreaterThanEqual() {
-        // Mocking repository method
+
         int actorId = 5;
 
         when(actorRepository.findByActorIdGreaterThanEqual(actorId)).thenReturn(Arrays.asList(
@@ -95,7 +95,6 @@ public class ActorRepositoryTest {
 
     @Test
     public void testFindByJPQL() {
-        // Mocking repository method
         int actorId = 5;
 
         when(actorRepository.findByJPQL(actorId)).thenReturn(Arrays.asList(
@@ -116,7 +115,6 @@ public class ActorRepositoryTest {
 
     @Test
     public void testFindBySQL() {
-        // Mocking repository method
         int id = 5;
 
         when(actorRepository.findBySQL(id)).thenReturn(Arrays.asList(

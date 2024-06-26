@@ -82,7 +82,7 @@ public class CategoryServiceImplTest {
 
     @Test
     void testAdd_invalidData() {
-        Category invalidCategory = new Category(); // No se establecen datos válidos
+        Category invalidCategory = new Category(); 
 
         assertThrows(InvalidDataException.class, () -> srv.add(invalidCategory));
 
@@ -98,6 +98,6 @@ public class CategoryServiceImplTest {
         verify(dao, times(1)).delete(categoryToDelete);
     }
 
-    // Añade más pruebas según sea necesario para otros métodos y casos de uso
+ 
 
 }

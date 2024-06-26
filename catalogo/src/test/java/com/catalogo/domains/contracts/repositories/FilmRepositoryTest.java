@@ -28,7 +28,6 @@ public class FilmRepositoryTest {
 
     @Test
     public void testFindByJPQL() {
-        // Mocking repository method
         int filmId = 5;
 
         List<Film> films = Arrays.asList(
@@ -51,7 +50,6 @@ public class FilmRepositoryTest {
 
     @Test
     public void testFindBySQL() {
-        // Mocking repository method
         int id = 5;
 
         List<Film> films = Arrays.asList(
