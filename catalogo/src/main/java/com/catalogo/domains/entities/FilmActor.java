@@ -15,6 +15,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name="film_actor")
 @NamedQuery(name="FilmActor.findAll", query="SELECT f FROM FilmActor f")
 public class FilmActor implements Serializable {
+	@Override
+	public String toString() {
+		return "FilmActor [id=" + id + ", actor=" + actor + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -24,17 +29,23 @@ public class FilmActor implements Serializable {
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to Actor
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="actor_id", nullable=false, insertable=false, updatable=false)
 	@JsonManagedReference
 	private Actor actor;
 
 	//bi-directional many-to-one association to Film
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="film_id", nullable=false, insertable=false, updatable=false)
 	private Film film;
 
 	public FilmActor() {
+	}
+
+	public FilmActor(Film film, Actor actor) {
+		this.film = film;
+		this.actor = actor;
+		this.id = new FilmActorPK(film.getFilmId(), actor.getActorId());
 	}
 
 	public FilmActorPK getId() {

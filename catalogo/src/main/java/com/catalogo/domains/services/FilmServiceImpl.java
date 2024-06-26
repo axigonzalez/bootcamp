@@ -15,6 +15,8 @@ import com.catalogo.exceptions.DuplicateKeyException;
 import com.catalogo.exceptions.InvalidDataException;
 import com.catalogo.exceptions.NotFoundException;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class FilmServiceImpl implements FilmService{
 	private FilmRepository dao;
@@ -91,5 +93,11 @@ public class FilmServiceImpl implements FilmService{
 	public void deleteById(Integer id) {
 		dao.deleteById(id);
 	}
+
+	@Override
+    @Transactional
+    public void save(Film film) {
+        dao.save(film);
+    }
 
 }

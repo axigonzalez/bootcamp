@@ -3,6 +3,7 @@ package com.catalogo.domains.core.contracts.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.catalogo.domains.entities.Film;
 import com.catalogo.exceptions.DuplicateKeyException;
 import com.catalogo.exceptions.InvalidDataException;
 import com.catalogo.exceptions.NotFoundException;
@@ -18,4 +19,5 @@ public interface DomainService<E, K> {
 	
 	void delete(E item) throws InvalidDataException;
 	void deleteById(K id);
+
 }

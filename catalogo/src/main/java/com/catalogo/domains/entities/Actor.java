@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,7 +50,7 @@ public class Actor extends EntityBase<Actor> implements Serializable {
 	//bi-directional many-to-one association to FilmActor
 	@OneToMany(mappedBy="actor", fetch = FetchType.LAZY)
 	@JsonBackReference
-	private List<FilmActor> filmActors;
+	private List<FilmActor> filmActors = new ArrayList<>();;
 
 	public Actor() {
 	}

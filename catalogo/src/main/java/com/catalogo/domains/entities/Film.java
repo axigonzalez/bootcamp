@@ -4,6 +4,7 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,7 +64,7 @@ public class Film extends EntityBase<Film> implements Serializable {
 
 	//bi-directional many-to-one association to FilmActor
 	@OneToMany(mappedBy="film", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<FilmActor> filmActors;
+	private List<FilmActor> filmActors = new ArrayList<>();;
 
 	//bi-directional many-to-one association to FilmCategory
 	@OneToMany(mappedBy="film", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -85,6 +86,21 @@ public class Film extends EntityBase<Film> implements Serializable {
 		this.releaseYear = releaseYear;
 		this.title = title;
 	}
+	
+	public void addActor(Actor actor) {
+	    // Evitar duplicados
+	    for (FilmActor filmActor : filmActors) {
+	        if (filmActor.getActor().equals(actor)) {
+	            return; // El actor ya está asociado a este film
+	        }
+	    }
+
+	    // Crear nueva relación FilmActor
+	    FilmActor filmActor = new FilmActor(this, actor);
+	    filmActors.add(filmActor);
+	    actor.getFilmActors().add(filmActor);
+	}
+
 
 
 	public int getFilmId() {
@@ -256,7 +272,7 @@ public class Film extends EntityBase<Film> implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Film [filmId=" + filmId + ", title=" + title + "]";
+		return "Film [filmId=" + filmId + ", title=" + title + ", filmActors=" + filmActors + "]";
 	}
 
 

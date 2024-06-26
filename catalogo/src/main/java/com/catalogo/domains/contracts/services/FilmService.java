@@ -5,4 +5,5 @@ import com.catalogo.domains.entities.Film;
 
 public interface FilmService extends ProjectionDomainService<Film, Integer>{
 
+	void save(Film film);
 }

@@ -20,6 +20,12 @@ public class FilmActorPK implements Serializable {
 
 	public FilmActorPK() {
 	}
+	
+	public FilmActorPK(int actorId, int filmId) {
+		this.actorId = actorId;
+		this.filmId = filmId;
+	}
+
 	public int getActorId() {
 		return this.actorId;
 	}
@@ -53,5 +59,9 @@ public class FilmActorPK implements Serializable {
 		hash = hash * prime + this.filmId;
 		
 		return hash;
+	}
+	@Override
+	public String toString() {
+		return "FilmActorPK [actorId=" + actorId + ", filmId=" + filmId + "]";
 	}
 }
