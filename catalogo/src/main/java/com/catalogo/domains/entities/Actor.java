@@ -3,6 +3,7 @@ package com.catalogo.domains.entities;
 import java.io.Serializable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Timestamp;
@@ -31,9 +32,9 @@ public class Actor extends EntityBase<Actor> implements Serializable {
 	private int actorId;
 
 	@Column(name="first_name", nullable=false, length=45)
-	@NotBlank
+//	@NotBlank(message = )
 	@Size(max=45, min=2)
-//	@Pattern(regexp = "^[A-Z]+$", message = "tiene que estar en mayusculas")
+	@Pattern(regexp = "^[A-Z]+$", message = "tiene que estar en mayusculas")
 	private String firstName;
 
 	@Column(name="last_name", nullable=false, length=45)
@@ -44,7 +45,7 @@ public class Actor extends EntityBase<Actor> implements Serializable {
 
 	@Column(name="last_update", insertable=false, updatable=false /*, nullable=false*/)
 	@JsonFormat(pattern = "yyyy- MM-dd hh:mm:ss")
-	@NotBlank
+	
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
