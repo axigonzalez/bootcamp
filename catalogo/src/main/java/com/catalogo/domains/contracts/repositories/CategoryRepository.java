@@ -16,7 +16,7 @@ RepositoryWithProjections {
 
 	List<Category> findByCategoryIdGreaterThanEqual(int categoryId);
 	@Query(value = "from Category c where c.categoryId >= ?1")
-	List<Category> findByJPQL(int actorId);
+	List<Category> findByJPQL(int categoryId);
 	@Query(value = "SELECT * FROM category WHERE category_id >= ?1", nativeQuery = true)
 	List<Category> findBySQL(int id);
 	

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 import com.catalogo.domains.core.entities.EntityBase;
 
@@ -225,6 +226,40 @@ public class Film extends EntityBase<Film> implements Serializable {
 
 		return filmCategory;
 	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, filmActors, filmCategories, filmId, language, languageVO, lastUpdate, length,
+				rating, releaseYear, rentalDuration, rentalRate, replacementCost, title);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Film other = (Film) obj;
+		return Objects.equals(description, other.description) && Objects.equals(filmActors, other.filmActors)
+				&& Objects.equals(filmCategories, other.filmCategories) && filmId == other.filmId
+				&& Objects.equals(language, other.language) && Objects.equals(languageVO, other.languageVO)
+				&& Objects.equals(lastUpdate, other.lastUpdate) && length == other.length
+				&& Objects.equals(rating, other.rating) && Objects.equals(releaseYear, other.releaseYear)
+				&& rentalDuration == other.rentalDuration && Objects.equals(rentalRate, other.rentalRate)
+				&& Objects.equals(replacementCost, other.replacementCost) && Objects.equals(title, other.title);
+	}
+
+
+	@Override
+	public String toString() {
+		return "Film [filmId=" + filmId + ", title=" + title + "]";
+	}
+
+
 
 
 
