@@ -38,7 +38,7 @@ public class CatalogoApplication implements CommandLineRunner {
 		srv.getByProjection(CategoryDTO.class).forEach(System.out::println);
 //		ls.add(new Language(7, "Español"));
 		ls.getByProjection(LanguageDTO.class).forEach(System.out::println);
-//		fs.getAll().forEach(System.out::println);
+		System.out.println(fs.getOne(3));
 
 	}
 	
