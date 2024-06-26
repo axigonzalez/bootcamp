@@ -2,8 +2,6 @@ package testing;
 
 import java.util.Optional;
 
-import org.hibernate.validator.internal.engine.groups.ValidationOrder;
-
 public class Persona {
 
 	private int id;

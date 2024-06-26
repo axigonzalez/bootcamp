@@ -3,8 +3,6 @@ package com.catalogo.domains.entities;
 import java.io.Serializable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;

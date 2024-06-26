@@ -24,7 +24,7 @@ import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 
 @DataJpaTest
-@ComponentScan(basePackages = "com.example")
+@ComponentScan(basePackages = "com.catalogo")
 class ActorServiceImplTest {
 
 	@MockBean

@@ -1,21 +1,10 @@
 package com.example;
 
-import java.awt.event.ItemEvent;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Sort;
-
 import com.example.domains.contracts.repositories.ActorRepository;
-import com.example.domains.entities.Actor;
-import com.example.ioc.Rango;
-import com.example.ioc.Saluda;
-import com.example.ioc.SaludaImpl2;
-
-import ch.qos.logback.core.joran.conditional.ElseAction;
 
 
 

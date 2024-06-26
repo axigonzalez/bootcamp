@@ -11,16 +11,11 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
 import com.catalogo.domains.contracts.repositories.CategoryRepository;
 import com.catalogo.domains.contracts.services.CategoryService;
 import com.catalogo.domains.entities.Category;
 import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
-import com.example.exceptions.NotFoundException;
 
 
 public class CategoryServiceImplTest {

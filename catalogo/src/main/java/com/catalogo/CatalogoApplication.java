@@ -1,7 +1,5 @@
 package com.catalogo;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,9 +9,6 @@ import com.catalogo.domains.contracts.services.ActorService;
 import com.catalogo.domains.contracts.services.CategoryService;
 import com.catalogo.domains.contracts.services.FilmService;
 import com.catalogo.domains.contracts.services.LanguageService;
-import com.catalogo.domains.entities.Actor;
-import com.catalogo.domains.entities.Film;
-import com.catalogo.domains.entities.Language;
 import com.catalogo.domains.entities.models.CategoryDTO;
 import com.catalogo.domains.entities.models.LanguageDTO;
 

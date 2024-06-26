@@ -1,7 +1,5 @@
 package com.example.ioc;
 
-import org.springframework.stereotype.Service;
-
 //@Service
 public class EntornoImpl implements Entorno {
 	private int contador;

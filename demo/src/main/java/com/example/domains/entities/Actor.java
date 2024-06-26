@@ -3,7 +3,6 @@ package com.example.domains.entities;
 import java.io.Serializable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Timestamp;
@@ -11,10 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.example.domains.core.entities.EntityBase;
-import com.example.domains.core.validations.NIF;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**

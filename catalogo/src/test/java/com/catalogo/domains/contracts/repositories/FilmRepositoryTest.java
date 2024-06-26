@@ -5,9 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Query;
-
 import com.catalogo.domains.entities.Film;
 import com.catalogo.domains.services.FilmServiceImpl;
 
