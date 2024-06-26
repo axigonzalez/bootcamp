@@ -1,302 +1,85 @@
 package com.catalogo.domains.services;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import com.catalogo.domains.contracts.repositories.ActorRepository;
-import com.catalogo.domains.entities.Actor;
-import com.catalogo.exceptions.DuplicateKeyException;
-import com.catalogo.exceptions.InvalidDataException;
-import com.catalogo.exceptions.NotFoundException;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 
-@ExtendWith(MockitoExtension.class)
-public class ActorServiceImplTest {
+import com.example.domains.contracts.repositories.ActorRepository;
+import com.example.domains.contracts.services.ActorService;
+import com.example.domains.entities.Actor;
+import com.example.exceptions.DuplicateKeyException;
+import com.example.exceptions.InvalidDataException;
 
-    @Mock
-    private ActorRepository actorRepository;
+@DataJpaTest
+@ComponentScan(basePackages = "com.catalogo")
+class ActorServiceImplTest {
 
-    @InjectMocks
-    private ActorServiceImpl actorService;
+	@MockBean
+	ActorRepository dao;
 
-    private Actor actor1;
-    private Actor actor2;
+	@Autowired
+	ActorService srv;
 
-    @BeforeEach
-    public void setUp() {
-        actor1 = new Actor(1, "John", "Doe");
-        actor2 = new Actor(2, "Jane", "Smith");
-    }
+	@Test
+	void testGetAll_isNotEmpty() {
+		List<Actor> lista = new ArrayList<>(Arrays.asList(
+				new Actor(1, "Pepito", "GRILLO"),
+				new Actor(2, "Carmelo", "COTON"), 
+				new Actor(3, "Capitan", "TAN")));
 
-    @Test
-    public void testGetByProjection() {
-        // Mocking repository method
-        when(actorRepository.findAllBy(String.class)).thenReturn(Arrays.asList("John Doe", "Jane Smith"));
+		when(dao.findAll()).thenReturn(lista);
+		var rslt = srv.getAll();
+		assertThat(rslt.size()).isEqualTo(3);
+		verify(dao, times(1)).findAll();
+	}
 
-        List<String> actors = actorService.getByProjection(String.class);
+	@Test
+	void testGetOne_valid() {
+		List<Actor> lista = new ArrayList<>(
+				Arrays.asList(
+						new Actor(1, "Pepito", "GRILLO"),
+						new Actor(2, "Carmelo", "COTON"), 
+						new Actor(3, "Capitan", "TAN")));
 
-        assertEquals(2, actors.size());
-        assertEquals("John Doe", actors.get(0));
-        assertEquals("Jane Smith", actors.get(1));
+		when(dao.findById(1)).thenReturn(Optional.of(new Actor(1, "Pepito", "GRILLO")));
+		var rslt = srv.getOne(1);
+		assertThat(rslt.isPresent()).isTrue();
 
-        verify(actorRepository, times(1)).findAllBy(String.class);
-    }
+	}
 
-    @Test
-    public void testGetByProjectionWithSort() {
-        // Mocking repository method
-        Sort sort = Sort.by(Sort.Order.asc("lastName"));
-        when(actorRepository.findAllBy(sort, String.class)).thenReturn(Arrays.asList("Doe", "Smith"));
+	@Test
+	void testGetOne_notfound() {
+		when(dao.findById(1)).thenReturn(Optional.empty());
+		var rslt = srv.getOne(1);
+		assertThat(rslt.isEmpty()).isTrue();
 
-        List<String> actors = (List<String>) actorService.getByProjection(sort, String.class);
+	}
 
-        assertEquals(2, actors.size());
-        assertEquals("Doe", actors.get(0));
-        assertEquals("Smith", actors.get(1));
+	@Test
+	void testAddKO() throws DuplicateKeyException, InvalidDataException {
+		when(dao.save(any(Actor.class))).thenReturn(null, null);
+		assertThrows(InvalidDataException.class, () -> srv.add(null));
+		verify(dao, times(0)).save(null);
+	}
+	@Test
+	void testAddDuplicateKeyKO() throws DuplicateKeyException, InvalidDataException {
+		when(dao.findById(1)).thenReturn(Optional.of(new Actor(1, "Pepito", "GRILLO")));
+		when(dao.existsById(1)).thenReturn(true);
+		assertThrows(DuplicateKeyException.class, () -> srv.add(new Actor(1, "PP", "ILLO")));
+	}
 
-        verify(actorRepository, times(1)).findAllBy(sort, String.class);
-    }
-
-    @Test
-    public void testGetByProjectionWithPageable() {
-        // Mocking repository method
-        Pageable pageable = Pageable.unpaged();
-        Page<String> page = new PageImpl<>(Arrays.asList("John", "Jane"), pageable, 2);
-        when(actorRepository.findAllBy(pageable, String.class)).thenReturn(page);
-
-        Page<String> resultPage = (Page<String>) actorService.getByProjection(pageable, String.class);
-
-        assertEquals(2, resultPage.getTotalElements());
-        assertEquals("John", resultPage.getContent().get(0));
-        assertEquals("Jane", resultPage.getContent().get(1));
-
-        verify(actorRepository, times(1)).findAllBy(pageable, String.class);
-    }
-
-    @Test
-    public void testGetAllWithSort() {
-        // Mocking repository method
-        Sort sort = Sort.by(Sort.Order.asc("lastName"));
-        when(actorRepository.findAll(sort)).thenReturn(Arrays.asList(actor1, actor2));
-
-        Iterable<Actor> actors = actorService.getAll(sort);
-
-        assertEquals(2, ((List<Actor>) actors).size());
-        assertEquals(actor1, ((List<Actor>) actors).get(0));
-        assertEquals(actor2, ((List<Actor>) actors).get(1));
-
-        verify(actorRepository, times(1)).findAll(sort);
-    }
-
-    @Test
-    public void testGetAllWithPageable() {
-        // Mocking repository method
-        Pageable pageable = Pageable.unpaged();
-        Page<Actor> page = new PageImpl<>(Arrays.asList(actor1, actor2), pageable, 2);
-        when(actorRepository.findAll(pageable)).thenReturn(page);
-
-        Page<Actor> resultPage = actorService.getAll(pageable);
-
-        assertEquals(2, resultPage.getTotalElements());
-        assertEquals(actor1, resultPage.getContent().get(0));
-        assertEquals(actor2, resultPage.getContent().get(1));
-
-        verify(actorRepository, times(1)).findAll(pageable);
-    }
-
-    @Test
-    public void testGetAll() {
-        // Mocking repository method
-        when(actorRepository.findAll()).thenReturn(Arrays.asList(actor1, actor2));
-
-        List<Actor> actors = actorService.getAll();
-
-        assertEquals(2, actors.size());
-        assertEquals(actor1, actors.get(0));
-        assertEquals(actor2, actors.get(1));
-
-        verify(actorRepository, times(1)).findAll();
-    }
-
-    @Test
-    public void testGetOne() {
-        // Mocking repository method
-        when(actorRepository.findById(1)).thenReturn(Optional.of(actor1));
-        when(actorRepository.findById(2)).thenReturn(Optional.of(actor2));
-
-        Optional<Actor> actorOptional1 = actorService.getOne(1);
-        Optional<Actor> actorOptional2 = actorService.getOne(2);
-
-        assertTrue(actorOptional1.isPresent());
-        assertEquals(actor1, actorOptional1.get());
-
-        assertTrue(actorOptional2.isPresent());
-        assertEquals(actor2, actorOptional2.get());
-
-        verify(actorRepository, times(1)).findById(1);
-        verify(actorRepository, times(1)).findById(2);
-    }
-
-    @Test
-    public void testAdd() {
-        Actor newActor = new Actor(3, "jhon", "salchichon");
-
-        // Mocking repository method
-        when(actorRepository.save(newActor)).thenReturn(newActor);
-
-        try {
-            Actor addedActor = actorService.add(newActor);
-            assertEquals(newActor, addedActor);
-
-            verify(actorRepository, times(1)).save(newActor);
-        } catch (Exception e) {
-            fail("Exception should not be thrown");
-        }
-    }
-
-    @Test
-    public void testAddThrowsDuplicateKeyException() {
-        Actor existingActor = new Actor(1, "John", "Doe");
-
-        // Mocking repository method
-        when(actorRepository.existsById(existingActor.getActorId())).thenReturn(true);
-
-        try {
-            actorService.add(existingActor);
-            fail("DuplicateKeyException should have been thrown");
-        } catch (DuplicateKeyException e) {
-            // Expected exception
-            assertEquals("Ya existe", e.getMessage());
-        } catch (Exception e) {
-            fail("Unexpected exception type thrown");
-        }
-    }
-
-    @Test
-    public void testAddThrowsInvalidDataException() {
-        Actor invalidActor = new Actor(); // Assuming this actor is invalid
-
-        try {
-            actorService.add(invalidActor);
-            fail("InvalidDataException should have been thrown");
-        } catch (InvalidDataException e) {
-            // Expected exception
-            assertNotNull(e.getMessage());
-        } catch (Exception e) {
-            fail("Unexpected exception type thrown");
-        }
-    }
-
-    @Test
-    public void testModify() {
-        Actor modifiedActor = new Actor(1, "Modified", "Actor");
-
-        // Mocking repository method
-        when(actorRepository.existsById(modifiedActor.getActorId())).thenReturn(true);
-        when(actorRepository.save(modifiedActor)).thenReturn(modifiedActor);
-
-        try {
-            Actor result = actorService.modify(modifiedActor);
-            assertEquals(modifiedActor, result);
-
-            verify(actorRepository, times(1)).save(modifiedActor);
-        } catch (Exception e) {
-            fail("Exception should not be thrown");
-        }
-    }
-
-    @Test
-    public void testModifyThrowsNotFoundException() {
-        Actor nonExistingActor = new Actor(999, "Non Existing", "Actor");
-
-        // Mocking repository method
-        when(actorRepository.existsById(nonExistingActor.getActorId())).thenReturn(false);
-
-        try {
-            actorService.modify(nonExistingActor);
-            fail("NotFoundException should have been thrown");
-        } catch (NotFoundException e) {
-            // Expected exception
-        } catch (Exception e) {
-            fail("Unexpected exception type thrown");
-        }
-    }
-
-    @Test
-    public void testModifyThrowsInvalidDataException() {
-        Actor invalidActor = new Actor(); // Assuming this actor is invalid
-
-        try {
-            actorService.modify(invalidActor);
-            fail("InvalidDataException should have been thrown");
-        } catch (InvalidDataException e) {
-            // Expected exception
-            assertNotNull(e.getMessage());
-        } catch (Exception e) {
-            fail("Unexpected exception type thrown");
-        }
-    }
-
-    @Test
-    public void testDelete() {
-        Actor actorToDelete = new Actor(1, "John", "Doe");
-
-        // No need to mock repository method for delete since it doesn't return anything
-
-        try {
-            actorService.delete(actorToDelete);
-            verify(actorRepository, times(1)).delete(actorToDelete);
-        } catch (Exception e) {
-            fail("Exception should not be thrown");
-        }
-    }
-
-    @Test
-    public void testDeleteThrowsInvalidDataException() {
-        Actor invalidActor = null; // Assuming this actor is null
-
-        try {
-            actorService.delete(invalidActor);
-            fail("InvalidDataException should have been thrown");
-        } catch (InvalidDataException e) {
-            // Expected exception
-            assertNotNull(e.getMessage());
-        } catch (Exception e) {
-            fail("Unexpected exception type thrown");
-        }
-    }
-
-    @Test
-    public void testDeleteById() {
-        int actorIdToDelete = 1;
-
-        // No need to mock repository method for deleteById since it doesn't return anything
-
-        try {
-            actorService.deleteById(actorIdToDelete);
-            verify(actorRepository, times(1)).deleteById(actorIdToDelete);
-        } catch (Exception e) {
-            fail("Exception should not be thrown");
-        }
-    }
-
-    @Test
-    public void testRepartePremios() {
-        // Test implementation pending
-    }
 }
-

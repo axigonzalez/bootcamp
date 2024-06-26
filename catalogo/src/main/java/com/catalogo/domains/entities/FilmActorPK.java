@@ -12,20 +12,18 @@ public class FilmActorPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="actor_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="actor_id", insertable=false, updatable=false)
 	private int actorId;
 
-	@Column(name="film_id", insertable=false, updatable=false, unique=true, nullable=false)
+	@Column(name="film_id", insertable=false, updatable=false)
 	private int filmId;
 
 	public FilmActorPK() {
 	}
-	
-	public FilmActorPK(int actorId, int filmId) {
+	public FilmActorPK(int filmId, int actorId) {
 		this.actorId = actorId;
 		this.filmId = filmId;
 	}
-
 	public int getActorId() {
 		return this.actorId;
 	}
@@ -59,9 +57,5 @@ public class FilmActorPK implements Serializable {
 		hash = hash * prime + this.filmId;
 		
 		return hash;
-	}
-	@Override
-	public String toString() {
-		return "FilmActorPK [actorId=" + actorId + ", filmId=" + filmId + "]";
 	}
 }

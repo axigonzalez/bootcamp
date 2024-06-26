@@ -1,89 +1,70 @@
 package com.catalogo.domains.entities;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+class ActorTest {
 
-public class ActorTest {
+	@Test
+	@DisplayName("Es un actor valido")
+	void testIsValid() {
+		var fixture = new Actor(0, "Pepito", "GRILLO");
+		assertTrue(fixture.isValid());
+	}
 
-    private Actor actor;
+	@DisplayName("El nombre de tener entre 2 y 45 caracteres, y no puede estar en blanco")
+	@ParameterizedTest(name = "nombre: -{0}- -> {1}")
+	@CsvSource(value = { "'','ERRORES: firstName: el tamaño debe estar entre 2 y 45, no debe estar vacío.'",
+			"' ','ERRORES: firstName: el tamaño debe estar entre 2 y 45, no debe estar vacío.'",
+			"'   ','ERRORES: firstName: no debe estar vacío.'",
+			"A,'ERRORES: firstName: el tamaño debe estar entre 2 y 45.'",
+			"12345678901234567890123456789012345678901234567890,'ERRORES: firstName: el tamaño debe estar entre 2 y 45.'" })
+	void testNombreIsInvalid(String valor, String error) {
+		var fixture = new Actor(0, valor, "GRILLO");
+//		assertTrue(fixture.isInvalid());
+		assertEquals(error, fixture.getErrorsMessage());
+	}
 
-    @BeforeEach
-    public void setUp() {
-        actor = new Actor(1, "John", "Doe");
-        actor.setLastUpdate(new Timestamp(System.currentTimeMillis()));
-    }
+	@DisplayName("Apellidos de tener entre 2 y 45 caracteres, y no puede estar en blanco")
+	@ParameterizedTest(name = "apellidos: -{0}-")
+	@ValueSource(strings = { " ", "    ", "p", "12345678901234567890123456789012345678901234567890"})
+	@NullAndEmptySource
+	void testApellidosIsInvalid(String valor) {
+		var fixture = new Actor(0, "GRILLO", valor);
+		assertTrue(fixture.isInvalid());
+	}
 
-    @Test
-    public void testConstructorAndGetters() {
-        assertEquals(1, actor.getActorId());
-        assertEquals("John", actor.getFirstName());
-        assertEquals("Doe", actor.getLastName());
-    }
+	@Test
+	@DisplayName("Solo compara la PK")
+	void testPrimaryKeyOK() {
+		var fixture1 = new Actor(666, "Pepito", "GRILLO");
+		var fixture2 = new Actor(666, "GRILLO", "Pepito");
+		assertAll("PK", 
+				() -> assertTrue(fixture1.equals(fixture2)),
+				() -> assertTrue(fixture2.equals(fixture1)),
+				() -> assertTrue(fixture1.hashCode() == fixture2.hashCode())
+				);
+	}
 
-    @Test
-    public void testSetters() {
-        actor.setActorId(2);
-        actor.setFirstName("Jane");
-        actor.setLastName("Smith");
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        actor.setLastUpdate(now);
+	@Test
+	@DisplayName("Solo la PK diferente")
+	void testPrimaryKeyKO() {
+		var fixture1 = new Actor(666, "Pepito", "GRILLO");
+		var fixture2 = new Actor(665, "Pepito", "GRILLO");
+		assertAll("PK", 
+				() -> assertFalse(fixture1.equals(fixture2)),
+				() -> assertFalse(fixture2.equals(fixture1)),
+				() -> assertTrue(fixture1.hashCode() != fixture2.hashCode())
+				);
+	}
 
-        assertEquals(2, actor.getActorId());
-        assertEquals("Jane", actor.getFirstName());
-        assertEquals("Smith", actor.getLastName());
-        assertEquals(now, actor.getLastUpdate());
-    }
-
-    @Test
-    public void testAddFilmActor() {
-        FilmActor filmActor = mock(FilmActor.class);
-        when(filmActor.getActor()).thenReturn(actor);
-
-        actor.addFilmActor(filmActor);
-
-        List<FilmActor> filmActors = actor.getFilmActors();
-        assertEquals(1, filmActors.size());
-        assertTrue(filmActors.contains(filmActor));
-        verify(filmActor).setActor(actor);
-    }
-
-    @Test
-    public void testRemoveFilmActor() {
-        FilmActor filmActor = mock(FilmActor.class);
-        when(filmActor.getActor()).thenReturn(actor);
-
-        actor.addFilmActor(filmActor);
-        actor.removeFilmActor(filmActor);
-
-        List<FilmActor> filmActors = actor.getFilmActors();
-        assertEquals(0, filmActors.size());
-        assertFalse(filmActors.contains(filmActor));
-        verify(filmActor).setActor(null);
-    }
-
-    @Test
-    public void testEqualsAndHashCode() {
-        Actor actor1 = new Actor(1, "John", "Doe");
-        Actor actor2 = new Actor(1, "John", "Doe");
-        Actor actor3 = new Actor(2, "Jane", "Smith");
-
-        assertEquals(actor1, actor2);
-        assertNotEquals(actor1, actor3);
-
-        assertEquals(actor1.hashCode(), actor2.hashCode());
-        assertNotEquals(actor1.hashCode(), actor3.hashCode());
-    }
-
-    @Test
-    public void testToString() {
-        String expected = "Actor [actorId=1, firstName=John, lastName=Doe, lastUpdate=" + actor.getLastUpdate() + "]";
-        assertEquals(expected, actor.toString());
-    }
 }

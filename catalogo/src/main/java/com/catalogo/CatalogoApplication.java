@@ -46,13 +46,13 @@ public class CatalogoApplication implements CommandLineRunner {
 //		ls.add(new Language(7, "Español"));
 		ls.getByProjection(LanguageDTO.class).forEach(System.out::println);
 		System.out.println(fs.getOne(3));
-//		
-//
+		
+
 //	       Actor actor = new Actor(15);
 //	       Film pelicula = new Film(3);
 //	        fs.save(pelicula);
 //	        System.out.println(fs.getOne(3));
-//		
+		
 		
 
 	}
