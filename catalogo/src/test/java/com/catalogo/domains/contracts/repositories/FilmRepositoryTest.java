@@ -57,7 +57,7 @@ public class FilmRepositoryTest {
 
         when(filmRepository.findBySQL(id)).thenReturn(films);
 
-        List<Film> result = filmRepository.findBySQL(id);
+        List<Film> result = (List<Film>) filmRepository.findBySQL(id);
 
         assertEquals(3, result.size());
         assertEquals(5, result.get(0).getFilmId());

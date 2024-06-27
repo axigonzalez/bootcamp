@@ -1,5 +1,6 @@
 package com.catalogo.domains.services;
 
+import java.security.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import com.catalogo.exceptions.DuplicateKeyException;
 import com.catalogo.exceptions.InvalidDataException;
 import com.catalogo.exceptions.NotFoundException;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -99,5 +101,10 @@ public class FilmServiceImpl implements FilmService{
     public void save(Film film) {
         dao.save(film);
     }
+
+	@Override
+	public List<Film> novedades(@NonNull Timestamp fecha) {
+		return dao.findByLastUpdateGreaterThanEqualOrderByLastUpdate(fecha);
+	}
 
 }

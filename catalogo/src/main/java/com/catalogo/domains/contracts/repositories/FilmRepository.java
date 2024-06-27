@@ -1,5 +1,6 @@
 package com.catalogo.domains.contracts.repositories;
 
+import java.security.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +13,10 @@ import com.catalogo.domains.entities.Film;
 public interface FilmRepository  extends JpaRepository<Film, Integer>, JpaSpecificationExecutor<Film>, 
 RepositoryWithProjections {
 
-	@Query(value = "from Film f where f.filmId >= ?1")
+	List<Film> findByLastUpdateGreaterThanEqualOrderByLastUpdate(Timestamp fecha);
+
 	List<Film> findByJPQL(int filmId);
-	@Query(value = "SELECT * FROM film WHERE film_id >= ?1", nativeQuery = true)
-	List<Film> findBySQL(int id);
+
+	Object findBySQL(int id);
 	
 }
