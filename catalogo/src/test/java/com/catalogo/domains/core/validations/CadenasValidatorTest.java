@@ -14,9 +14,8 @@ import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import com.example.domains.core.entities.EntityBase;
 import com.catalogo.domains.core.SpaceCamelCase;
-
+import com.catalogo.domains.core.entities.EntityBase;
 
 import lombok.Value;
 

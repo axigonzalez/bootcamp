@@ -14,8 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import com.catalogo.domains.contracts.repositories.CategoryRepository;
 import com.catalogo.domains.contracts.services.CategoryService;
 import com.catalogo.domains.entities.Category;
-import com.example.exceptions.DuplicateKeyException;
-import com.example.exceptions.InvalidDataException;
+import com.catalogo.exceptions.DuplicateKeyException;
+import com.catalogo.exceptions.InvalidDataException;
+
 
 
 public class CategoryServiceImplTest {

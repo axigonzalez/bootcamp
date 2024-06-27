@@ -17,11 +17,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.example.domains.contracts.repositories.ActorRepository;
-import com.example.domains.contracts.services.ActorService;
-import com.example.domains.entities.Actor;
-import com.example.exceptions.DuplicateKeyException;
-import com.example.exceptions.InvalidDataException;
+import com.catalogo.domains.contracts.repositories.ActorRepository;
+import com.catalogo.domains.contracts.services.ActorService;
+import com.catalogo.domains.entities.Actor;
+import com.catalogo.exceptions.DuplicateKeyException;
+import com.catalogo.exceptions.InvalidDataException;
+
+
 
 @DataJpaTest
 @ComponentScan(basePackages = "com.catalogo")

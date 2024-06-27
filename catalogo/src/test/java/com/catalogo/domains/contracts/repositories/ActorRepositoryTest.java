@@ -7,7 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Sort;
 import com.catalogo.domains.entities.Actor;
-import com.example.domains.services.ActorServiceImpl;
+import com.catalogo.domains.services.ActorServiceImpl;
 
 import java.util.Arrays;
 import java.util.List;
