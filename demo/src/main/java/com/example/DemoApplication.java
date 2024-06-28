@@ -4,9 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.ws.client.core.WebServiceTemplate;
+import org.springframework.ws.soap.client.core.SoapActionCallback;
+
 import com.example.domains.contracts.repositories.ActorRepository;
 import com.example.domains.contracts.services.ActorService;
 import com.example.domains.entities.models.ActorDTO;
+import com.example.webservice.schema.AddRequest;
+import com.example.webservice.schema.AddResponse;
+import com.example.webservice.schema.DivideRequest;
+import com.example.webservice.schema.DivideResponse;
+import com.example.webservice.schema.MultiplyRequest;
+import com.example.webservice.schema.MultiplyResponse;
+import com.example.webservice.schema.SubtractRequest;
+import com.example.webservice.schema.SubtractResponse;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -17,14 +30,48 @@ public class DemoApplication implements CommandLineRunner {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Autowired
-	ActorService srv;
+//	@Autowired
+//	ActorService srv;
 	
 	public void run(String... args) throws Exception {
 		System.err.println("Aplicación arrancada...");
-		srv.getByProjection(ActorDTO.class).forEach(System.out::println);
+//		srv.getByProjection(ActorDTO.class).forEach(System.out::println);
 	}
 	
+	@Bean
+	CommandLineRunner lookup(Jaxb2Marshaller marshaller) {
+		return args -> {		
+			WebServiceTemplate ws = new WebServiceTemplate(marshaller);
+			var request = new AddRequest();
+			request.setOp1(5);
+			request.setOp2(3);
+			var response = (AddResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+					 request, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+			System.err.println("Calculo remoto suma --> " + response.getAddResult());
+			
+			var request2 = new SubtractRequest();
+			request2.setOp1(5);
+			request2.setOp2(3);
+			var response2 = (SubtractResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+					 request2, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+			System.err.println("Calculo remoto resta --> " + response2.getSubtractResult());
+			
+			var request3 = new MultiplyRequest();
+			request3.setOp1(5);
+			request3.setOp2(3);
+			var response3 = (MultiplyResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+					request3, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+			System.err.println("Calculo remoto multiplicacion --> " + response3.getMultiplyResult());
+			
+			var request4 = new DivideRequest();
+			request4.setOp1(10);
+			request4.setOp2(2);
+			var response4 = (DivideResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+					request4, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+			System.err.println("Calculo remoto division  --> " + response4.getDivideResult());
+		};
+	}
+
 	/*
 	@Autowired
 	ActorRepository dao;
