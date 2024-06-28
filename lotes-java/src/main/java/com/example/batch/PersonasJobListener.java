@@ -11,24 +11,21 @@ import org.springframework.stereotype.Component;
 
 import com.example.models.Persona;
 
-
-
 @Component
 public class PersonasJobListener implements JobExecutionListener {
 	private static final Logger log = LoggerFactory.getLogger(PersonasJobListener.class);
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
+	private JdbcTemplate jdbcTemplate;	
+
 	@Override
 	public void afterJob(JobExecution jobExecution) {
 		if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
 			log.info("-------------------> Finalizado");
-			jdbcTemplate.query("SELECT id, nombre, correo, ip FROM personas",
-			(rs, row) -> new Persona(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4)))
+			jdbcTemplate.query("SELECT id, nombre, correo, ip FROM personas", 
+					(rs, row) -> new Persona(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getString(4)))
 			.forEach(p -> log.info("Fila: " + p));
 		}
 		log.info(jobExecution.getStatus().toString());
-	}
-	}
-	
+	}	
+}
