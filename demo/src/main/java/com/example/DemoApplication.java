@@ -38,39 +38,39 @@ public class DemoApplication implements CommandLineRunner {
 //		srv.getByProjection(ActorDTO.class).forEach(System.out::println);
 	}
 	
-	@Bean
-	CommandLineRunner lookup(Jaxb2Marshaller marshaller) {
-		return args -> {		
-			WebServiceTemplate ws = new WebServiceTemplate(marshaller);
-			var request = new AddRequest();
-			request.setOp1(5);
-			request.setOp2(3);
-			var response = (AddResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
-					 request, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
-			System.err.println("Calculo remoto suma 5 y 3 --> " + response.getAddResult());
-			
-			var request2 = new SubtractRequest();
-			request2.setOp1(5);
-			request2.setOp2(3);
-			var response2 = (SubtractResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
-					 request2, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
-			System.err.println("Calculo remoto resta 5 menos 3--> " + response2.getSubtractResult());
-			
-			var request3 = new MultiplyRequest();
-			request3.setOp1(5);
-			request3.setOp2(3);
-			var response3 = (MultiplyResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
-					request3, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
-			System.err.println("Calculo remoto multiplicacion 5 y 3 --> " + response3.getMultiplyResult());
-			
-			var request4 = new DivideRequest();
-			request4.setOp1(10);
-			request4.setOp2(2);
-			var response4 = (DivideResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
-					request4, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
-			System.err.println("Calculo remoto division 10 entre 2 --> " + response4.getDivideResult());
-		};
-	}
+//	@Bean
+//	CommandLineRunner lookup(Jaxb2Marshaller marshaller) {
+//		return args -> {		
+//			WebServiceTemplate ws = new WebServiceTemplate(marshaller);
+//			var request = new AddRequest();
+//			request.setOp1(5);
+//			request.setOp2(3);
+//			var response = (AddResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+//					 request, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+//			System.err.println("Calculo remoto suma 5 y 3 --> " + response.getAddResult());
+//			
+//			var request2 = new SubtractRequest();
+//			request2.setOp1(5);
+//			request2.setOp2(3);
+//			var response2 = (SubtractResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+//					 request2, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+//			System.err.println("Calculo remoto resta 5 menos 3--> " + response2.getSubtractResult());
+//			
+//			var request3 = new MultiplyRequest();
+//			request3.setOp1(5);
+//			request3.setOp2(3);
+//			var response3 = (MultiplyResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+//					request3, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+//			System.err.println("Calculo remoto multiplicacion 5 y 3 --> " + response3.getMultiplyResult());
+//			
+//			var request4 = new DivideRequest();
+//			request4.setOp1(10);
+//			request4.setOp2(2);
+//			var response4 = (DivideResponse) ws.marshalSendAndReceive("http://localhost:8090/ws/calculator", 
+//					request4, new SoapActionCallback("http://example.com/webservices/schemas/calculator"));
+//			System.err.println("Calculo remoto division 10 entre 2 --> " + response4.getDivideResult());
+//		};
+//	}
 
 	/*
 	@Autowired
