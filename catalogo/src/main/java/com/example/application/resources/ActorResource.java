@@ -67,7 +67,7 @@ public class ActorResource {
 
 	@GetMapping(path = "/{id}/pelis")
 	@Transactional
-	public List<Peli> getPelis(@PathVariable int id) throws NotFoundException {
+	public List<Peli> getFilms(@PathVariable int id) throws NotFoundException {
 		var item = srv.getOne(id);
 		if (item.isEmpty())
 			throw new NotFoundException();

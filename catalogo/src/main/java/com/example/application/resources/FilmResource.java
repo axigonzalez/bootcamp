@@ -11,19 +11,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.application.resources.ActorResource.Peli;
 import com.example.domains.contracts.services.CategoryService;
+import com.example.domains.contracts.services.FilmService;
 import com.example.domains.entities.models.ActorDTO;
 import com.example.domains.entities.models.ActorShort;
 import com.example.domains.entities.models.CategoryDTO;
+import com.example.domains.entities.models.FilmDTO;
+import com.example.domains.entities.models.FilmShortDTO;
 import com.example.exceptions.NotFoundException;
 
+import jakarta.transaction.Transactional;
+
 @RestController
-@RequestMapping("/api/categorias/v1")
-public class CategoryResource {
+@RequestMapping("/api/peliculas/v1")
+public class FilmResource {
 
-	private CategoryService srv;
+	private FilmService srv;
 
-	public CategoryResource(CategoryService srv) {
+	public FilmResource(FilmService srv) {
 		this.srv = srv;
 	}
 
@@ -33,17 +39,30 @@ public class CategoryResource {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public CategoryDTO getOne(@PathVariable int id) throws NotFoundException {
+	public FilmDTO getOne(@PathVariable int id) throws NotFoundException {
 		var item = srv.getOne(id);
 		if (item.isEmpty())
 			throw new NotFoundException();
-		return CategoryDTO.from(item.get());
+		return FilmDTO.from(item.get());
 	}
 	
+	record ActorRecord(int id, String nombre, String apellidos) {
+	}
+
+	@GetMapping(path = "/{id}/actores")
+	@Transactional
+	public List<ActorRecord> getActors(@PathVariable int id) throws NotFoundException {
+		var item = srv.getOne(id);
+		if (item.isEmpty())
+			throw new NotFoundException();
+		return item.get().getFilmActors().stream()
+				.map(o -> new ActorRecord(o.getActor().getActorId(), o.getActor().getFirstName(), o.getActor().getLastName()))
+				.toList();
+	}
+
 	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable int id) {
 		srv.deleteById(id);
 	}
-
 }

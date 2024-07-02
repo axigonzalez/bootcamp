@@ -12,18 +12,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domains.contracts.services.CategoryService;
+import com.example.domains.contracts.services.LanguageService;
 import com.example.domains.entities.models.ActorDTO;
 import com.example.domains.entities.models.ActorShort;
 import com.example.domains.entities.models.CategoryDTO;
+import com.example.domains.entities.models.LanguageDTO;
 import com.example.exceptions.NotFoundException;
 
 @RestController
-@RequestMapping("/api/categorias/v1")
-public class CategoryResource {
+@RequestMapping("/api/idiomas/v1")
+public class LanguageResource {
 
-	private CategoryService srv;
+	private LanguageService srv;
 
-	public CategoryResource(CategoryService srv) {
+	public LanguageResource(LanguageService srv) {
 		this.srv = srv;
 	}
 
@@ -33,11 +35,11 @@ public class CategoryResource {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public CategoryDTO getOne(@PathVariable int id) throws NotFoundException {
+	public LanguageDTO getOne(@PathVariable int id) throws NotFoundException {
 		var item = srv.getOne(id);
 		if (item.isEmpty())
 			throw new NotFoundException();
-		return CategoryDTO.from(item.get());
+		return LanguageDTO.from(item.get());
 	}
 	
 	@DeleteMapping(path = "/{id}")
