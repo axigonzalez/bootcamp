@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.application.resources.ActorResource.Peli;
 import com.example.domains.contracts.services.CategoryService;
 import com.example.domains.contracts.services.FilmService;
+import com.example.domains.entities.Film;
 import com.example.domains.entities.models.ActorDTO;
 import com.example.domains.entities.models.ActorShort;
 import com.example.domains.entities.models.CategoryDTO;
@@ -32,6 +33,8 @@ import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 import com.example.exceptions.NotFoundException;
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
@@ -80,6 +83,19 @@ public class FilmResource {
 //				.buildAndExpand(newItem.getFilmId()).toUri();
 //		return ResponseEntity.created(location).build();
 //	}
+	
+	@Operation(summary = "Añadir una nueva pelicula")
+//	@ApiResponse(responseCode = "201", description = "Pelicula añadida")
+//	@ApiResponse(responseCode = "404", description = "Pelicula no encontrada")
+	@PostMapping
+	@ResponseStatus(code = HttpStatus.CREATED)
+	@Transactional
+	public ResponseEntity<Object> add(@RequestBody FilmDTOComplete item) throws Exception {
+		Film newItem = srv.add(FilmDTOComplete.from(item));
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(newItem.getFilmId()).toUri();
+		return ResponseEntity.created(location).build();
+	}
 	
 	@PutMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
