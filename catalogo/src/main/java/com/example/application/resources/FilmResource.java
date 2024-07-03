@@ -75,23 +75,12 @@ public class FilmResource {
 				.toList();
 	}
 	
-//	@PostMapping
-//	public ResponseEntity<Object> create(@Valid @RequestBody FilmDTOComplete item)
-//			throws BadRequestException, DuplicateKeyException, InvalidDataException {
-//		var newItem = srv.add(FilmDTOComplete.from(item));
-//		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(newItem.getFilmId()).toUri();
-//		return ResponseEntity.created(location).build();
-//	}
-	
-	@Operation(summary = "Añadir una nueva pelicula")
-//	@ApiResponse(responseCode = "201", description = "Pelicula añadida")
-//	@ApiResponse(responseCode = "404", description = "Pelicula no encontrada")
+
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	@Transactional
-	public ResponseEntity<Object> add(@RequestBody FilmDTOComplete item) throws Exception {
-		Film newItem = srv.add(FilmDTOComplete.from(item));
+	public ResponseEntity<Object> add(@RequestBody FilmDTO item) throws Exception {
+		Film newItem = srv.add(FilmDTO.from(item));
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(newItem.getFilmId()).toUri();
 		return ResponseEntity.created(location).build();

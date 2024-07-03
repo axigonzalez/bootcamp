@@ -1,10 +1,16 @@
+  ___       ___       ___   
+ /   \     /   \     /   \  
+/  ^  \   /  ^  \   /  ^  \ 
+/  /_\  \ /  /_\  \ /  /_\  \
+/  _____  \\  \_/   \\  \_/   \
+/__/     \__\\_______/ \_______/
 
-    ___________      _________         ----------------------------------------------------------------------------------------------------
-   |           \    /         \       | Application | ${info.app.name} (${info.app.version})
-   |_____       \  /       _   \      |             | ${info.app.description}
-         |       \/       | \   \     | Profile     | ${spring.profiles.active:DEFAULT}
-         |                |__\   \    | Java VM     | ${java.specification.vendor} ${java.specification.version} (v${java.version})
-  ___    |    |\    /|     ___    \   | Spring Boot |${spring-boot.formatted-version}
- |   |___|    | \  / |    |   \    \  | Process ID  | ${PID} Port: ${server.port}
- |____________|  \/  |____|    \____\  ----------------------------------------------------------------------------------------------------
-                                      Copyright © All rights reserved.
+----------------------------------------------------------------------------------------------------
+ | Application | catalogo (${application.version})
+ |             | Catalogo de pelicualas de Sakila
+ | Profile     | ${spring.profiles.active:DEFAULT}
+ | Java VM     | ${java.vm.name} ${java.version} (v${java.vm.version})
+ | Spring Boot | (v${spring-boot.version})
+ | Process ID  | ${PID} Port: ${server.port}
+----------------------------------------------------------------------------------------------------
+                                  Copyright © All rights reserved.
