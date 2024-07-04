@@ -1,27 +1,14 @@
 package com.example;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-import org.springframework.ws.client.core.WebServiceTemplate;
-import org.springframework.ws.soap.client.core.SoapActionCallback;
-
-import com.example.domains.contracts.repositories.ActorRepository;
-import com.example.domains.contracts.services.ActorService;
-import com.example.domains.entities.models.ActorDTO;
-import com.example.webservice.schema.AddRequest;
-import com.example.webservice.schema.AddResponse;
-import com.example.webservice.schema.DivideRequest;
-import com.example.webservice.schema.DivideResponse;
-import com.example.webservice.schema.MultiplyRequest;
-import com.example.webservice.schema.MultiplyResponse;
-import com.example.webservice.schema.SubtractRequest;
-import com.example.webservice.schema.SubtractResponse;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableDiscoveryClient
+@EnableFeignClients("com.example.application.proxies")
 public class DemoApplication implements CommandLineRunner {
 
 
