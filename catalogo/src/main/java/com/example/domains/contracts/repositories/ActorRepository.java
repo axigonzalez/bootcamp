@@ -11,7 +11,6 @@ import com.example.domains.core.contracts.repositories.RepositoryWithProjections
 import com.example.domains.entities.Actor;
 import com.example.domains.entities.Language;
 
-
 public interface ActorRepository extends ProjectionsAndSpecificationJpaRepository<Actor, Integer> {
 	List<Actor> findByLastUpdateGreaterThanEqualOrderByLastUpdate(Timestamp fecha);
 }

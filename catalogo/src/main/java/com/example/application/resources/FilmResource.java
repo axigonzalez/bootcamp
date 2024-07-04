@@ -12,33 +12,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.example.application.resources.ActorResource.Peli;
-import com.example.domains.contracts.services.CategoryService;
 import com.example.domains.contracts.services.FilmService;
 import com.example.domains.entities.Film;
-import com.example.domains.entities.models.ActorDTO;
-import com.example.domains.entities.models.ActorShort;
-import com.example.domains.entities.models.CategoryDTO;
 import com.example.domains.entities.models.FilmDTO;
-import com.example.domains.entities.models.FilmDTOComplete;
-import com.example.domains.entities.models.FilmShortDTO;
-import com.example.domains.entities.models.LanguageDTO;
 import com.example.exceptions.BadRequestException;
-import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 import com.example.exceptions.NotFoundException;
 
-import io.swagger.annotations.ApiResponse;
-import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "peliculas-service", description = "Mantenimiento de peliculas")
 @RequestMapping("/api/peliculas/v1")
 public class FilmResource {
 
@@ -48,6 +38,7 @@ public class FilmResource {
 		this.srv = srv;
 	}
 
+	
 	@GetMapping
 	public List getAll() {
 		return srv.getByProjection(FilmDTO.class);

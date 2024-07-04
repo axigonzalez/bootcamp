@@ -28,10 +28,12 @@ import com.example.exceptions.DuplicateKeyException;
 import com.example.exceptions.InvalidDataException;
 import com.example.exceptions.NotFoundException;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @RestController
+@Tag(name = "actores-service", description = "Mantenimiento de actores")
 @RequestMapping("/api/actores/v1")
 public class ActorResource {
 	private ActorService srv;
