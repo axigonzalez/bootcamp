@@ -1,4 +1,6 @@
+<h1>Hola{{Nombre}}</h1>
 <p>
+    <!-- <input type="text" [(ngModel)]="Nombre"> -->
     <input type="button" value="Error" (click)="vm.add('Esto es una notificación de error')">
     <input type="button" value="Warn" (click)="vm.add('Esta notificación es un aviso',
     vm.NotificationType.warn)">
