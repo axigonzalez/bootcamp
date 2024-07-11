@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CapitalizePipe, ElipsisPipe, MyCoreModule } from '@my/core';
 import { NotificationService } from '../../common-services/notification.service';
 import { Unsubscribable } from 'rxjs';
 
 @Component({
   selector: 'app-demos',
   standalone: true,
-  imports: [CommonModule, FormsModule ],
+  imports: [CommonModule, FormsModule, ElipsisPipe, CapitalizePipe, ],
   templateUrl: './demos.component.html',
   styleUrl: './demos.component.css'
 })
