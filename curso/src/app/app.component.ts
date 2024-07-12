@@ -1,25 +1,31 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SecurityModule } from './security';
-import { LoggerService, MyCoreModule } from '@my/core';
-import { NotificationModalComponent } from './main';
-import { DemosComponent } from './ejemplos/demos/demos.component';
-import { CommonModule } from '@angular/common';
+import { LoggerService } from '@my/core';
+import { NotificationComponent, NotificationModalComponent } from './main';
+import { DemosComponent } from './ejemplos';
+import { NotificationService, NotificationType } from './common-services';
 import { HomeComponent } from "./main/home/home.component";
+import { DashboardComponent } from "./ejemplos/dashboard/dashboard.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, SecurityModule, MyCoreModule, NotificationModalComponent, DemosComponent, HomeComponent],
+  imports: [RouterOutlet, NotificationComponent, NotificationModalComponent, DemosComponent, HomeComponent, DashboardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'curso';
-  constructor(log: LoggerService){
-    log.error('Es un error')
-    log.warn('Es un warn')
-    log.info('Es un info')
-    log.log('Es un log')
-  }
+
+  // constructor(log: LoggerService) {
+  //   log.error('Es un error')
+  //   log.warn('Es un warn')
+  //   log.info('Es un info')
+  //   log.log('Es un log')
+  // }
+//  constructor(private notify: NotificationService) { }
+
+//  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
+//  ngOnInit(): void {
+//   this.notify.add('Aplicación arrancada', NotificationType.info)
+//  }
 }

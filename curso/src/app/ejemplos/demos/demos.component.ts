@@ -1,27 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CapitalizePipe, ElipsisPipe, MyCoreModule } from '@my/core';
-import { NotificationService } from '../../common-services/notification.service';
+import { MyCoreModule } from '@my/core';
 import { Unsubscribable } from 'rxjs';
+import { NotificationService, NotificationType } from 'src/app/common-services';
 
 @Component({
   selector: 'app-demos',
   standalone: true,
-  imports: [CommonModule, FormsModule, ElipsisPipe, CapitalizePipe, ],
+  imports: [CommonModule, FormsModule, MyCoreModule, ],
   templateUrl: './demos.component.html',
   styleUrl: './demos.component.css'
 })
-
-export class DemosComponent implements OnInit, OnDestroy {
+export class DemosComponent implements OnInit, OnDestroy  {
   private nombre: string = 'mundo'
-  fecha = '2024-07-11'
+  fecha='2024-07-11'
   fontSize = 24
   listado = [
-    { id: 1, nombre: 'Madrid' },
-    { id: 2, nombre: 'BARCELONA' },
-    { id: 3, nombre: 'oviedo' },
-    { id: 4, nombre: 'ciudad Real' },
+    { id: 1, nombre: 'Madrid'},
+    { id: 2, nombre: 'BARCELONA'},
+    { id: 3, nombre: 'oviedo'},
+    { id: 4, nombre: 'ciudad Real'},
   ]
   idProvincia = 2
 
@@ -33,7 +32,7 @@ export class DemosComponent implements OnInit, OnDestroy {
 
   public get Nombre(): string { return this.nombre }
   public set Nombre(value: string) {
-    if (this.nombre === value) return
+    if(this.nombre === value) return
     this.nombre = value
   }
 
@@ -59,7 +58,7 @@ export class DemosComponent implements OnInit, OnDestroy {
 
   public add(provincia: string) {
     const id = this.listado[this.listado.length - 1].id + 1
-    this.listado.push({ id, nombre: provincia })
+    this.listado.push({id, nombre: provincia})
     this.idProvincia = id
   }
 
@@ -77,4 +76,5 @@ export class DemosComponent implements OnInit, OnDestroy {
       this.suscriptor.unsubscribe();
     }
   }
+
 }

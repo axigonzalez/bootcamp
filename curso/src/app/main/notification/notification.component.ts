@@ -1,6 +1,6 @@
 import { NgIf, NgFor, I18nSelectPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { NotificationService } from 'src/app/common-services/notification.service';
+import { NotificationService } from '../../common-services';
 
 @Component({
   selector: 'app-notification',
@@ -9,10 +9,7 @@ import { NotificationService } from 'src/app/common-services/notification.servic
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.css'
 })
-
 export class NotificationComponent {
   constructor(private vm: NotificationService) { }
-
   public get VM() { return this.vm; }
-
 }
