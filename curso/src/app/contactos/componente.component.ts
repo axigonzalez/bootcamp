@@ -1,8 +1,10 @@
-import { Component, forwardRef, OnInit, OnDestroy } from "@angular/core";
+import { Component, forwardRef, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { ContactosViewModelService } from "./servicios.service";
 import { DatePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { TypeValidator, ErrorMessagePipe } from "@my/core";
+import { ActivatedRoute, ParamMap, Router, RouterLink } from "@angular/router";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-contactos',
@@ -28,11 +30,12 @@ export class ContactosComponent implements OnInit, OnDestroy {
   templateUrl: './tmpl-list.component.html',
   styleUrls: ['./componente.component.css'],
   standalone: true,
+  imports: [RouterLink]
 })
 export class ContactosListComponent implements OnInit, OnDestroy {
   constructor(protected vm: ContactosViewModelService) { }
   public get VM(): ContactosViewModelService { return this.vm; }
-  ngOnInit(): void { }
+  ngOnInit(): void { this.vm.list(); }
   ngOnDestroy(): void { this.vm.clear(); }
 }
 
@@ -46,8 +49,11 @@ export class ContactosListComponent implements OnInit, OnDestroy {
 export class ContactosAddComponent implements OnInit {
   constructor(protected vm: ContactosViewModelService) { }
   public get VM(): ContactosViewModelService { return this.vm; }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.vm.add();
+  }
 }
+
 @Component({
   selector: 'app-contactos-edit',
   templateUrl: './tmpl-form.component.html',
@@ -56,11 +62,26 @@ export class ContactosAddComponent implements OnInit {
   imports: [FormsModule, TypeValidator, ErrorMessagePipe]
 })
 export class ContactosEditComponent implements OnInit, OnDestroy {
-  constructor(protected vm: ContactosViewModelService) { }
+  private obs$?: Subscription;
+  constructor(protected vm: ContactosViewModelService,
+    protected route: ActivatedRoute, protected router: Router) { }
   public get VM(): ContactosViewModelService { return this.vm; }
-  ngOnInit(): void { }
-  ngOnDestroy(): void { }
+  ngOnInit(): void {
+    this.obs$ = this.route.paramMap.subscribe(
+      (params: ParamMap) => {
+        const id = parseInt(params?.get('id') ?? '');
+        if (id) {
+          this.vm.edit(id);
+        } else {
+          this.router.navigate(['/404.html']);
+        }
+      });
+  }
+  ngOnDestroy(): void {
+    this.obs$!.unsubscribe();
+  }
 }
+
 @Component({
   selector: 'app-contactos-view',
   templateUrl: './tmpl-view.component.html',
@@ -68,12 +89,19 @@ export class ContactosEditComponent implements OnInit, OnDestroy {
   standalone: true,
   imports: [DatePipe]
 })
-export class ContactosViewComponent implements OnInit, OnDestroy {
-  constructor(protected vm: ContactosViewModelService) { }
+export class ContactosViewComponent implements OnChanges {
+  @Input() id?: string;
+  constructor(protected vm: ContactosViewModelService, protected router: Router) { }
   public get VM(): ContactosViewModelService { return this.vm; }
-  ngOnInit(): void { }
-  ngOnDestroy(): void { }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.id) {
+      this.vm.view(+this.id);
+    } else {
+      this.router.navigate(['/404.html']);
+    }
+  }
 }
+
 
 export const CONTACTOS_COMPONENTES = [
   ContactosComponent, ContactosListComponent, ContactosAddComponent,

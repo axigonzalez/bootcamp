@@ -1,7 +1,10 @@
 <header>
   @for(item of menu; track item) {
-    <button type="button" (click)="seleccionar($index)">{{item.texto}}</button>
+  <button type="button" (click)="seleccionar($index)">{{item.texto}}</button>
   }
+  <li class="nav-item">
+    <a class="nav-link" [routerLink]="['/contactos']" routerLinkActive="active">contactos</a>
+  </li>
 </header>
 <app-notification />
 <main class="container-fluid">

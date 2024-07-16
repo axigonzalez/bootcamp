@@ -7,11 +7,12 @@ import { NotificationComponent } from "../../main/notification/notification.comp
 import { CommonModule } from '@angular/common';
 import { FormularioComponent } from '../formulario/formulario.component';
 import { ContactosComponent } from 'src/app/contactos';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NotificationComponent, CommonModule, ],
+  imports: [NotificationComponent, CommonModule, RouterModule ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

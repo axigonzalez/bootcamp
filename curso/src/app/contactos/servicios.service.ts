@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from '../common-services/notification.service';
 import { LoggerService } from 'src/lib/my-core/services/logger.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../security';
 
 
 
@@ -20,10 +22,10 @@ export class ContactosViewModelService {
   protected listado: any[] = [];
   protected elemento: any = {};
   protected idOriginal: any = null;
+  protected listURL = '/contactos';
 
-  constructor(protected notify: NotificationService,
-    protected out: LoggerService,
-    protected dao: ContactosDAOService) { }
+  constructor(protected notify: NotificationService, protected out: LoggerService,
+    protected dao: ContactosDAOService, protected router: Router, public auth: AuthService) { }
 
   public get Modo(): ModoCRUD { return this.modo; }
   public get Listado(): any[] { return this.listado; }
@@ -73,8 +75,10 @@ export class ContactosViewModelService {
   public cancel(): void {
     this.elemento = {};
     this.idOriginal = null;
-    this.list();
+    // this.list();
+    this.router.navigateByUrl(this.listURL);
   }
+
   public send(): void {
     switch (this.modo) {
       case 'add':
@@ -101,7 +105,7 @@ export class ContactosViewModelService {
     let msg = ''
     switch (err.status) {
       case 0: msg = err.message; break;
-      case 404: msg = `ERROR ${err.status}: ${err.statusText}`; break;
+      case 404: this.router.navigateByUrl('/404.html'); return;
       default:
         msg = `ERROR ${err.status}: ${err.error?.['title'] ??
           err.statusText}.${err.error?.['detail'] ? ` Detalles: ${err.error['detail']}` : ''}`
