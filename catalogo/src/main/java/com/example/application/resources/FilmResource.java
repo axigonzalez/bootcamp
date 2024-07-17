@@ -38,7 +38,13 @@ public class FilmResource {
 		this.srv = srv;
 	}
 
-	
+//    @Operation(summary = "Obtener todos los peliculas paginados")
+//    @ApiResponse(responseCode = "200", description = "Lista paginada de peliculas recuperados", content = {
+//            @Content(mediaType = "application/json", schema = @Schema(implementation = Page.class)) })
+//    @GetMapping(params = "page")
+//    public Page<FilmDTO> getAll(Pageable page) {
+//        return srv.getByProjection(page, FilmDTO.class);
+//    }
 	@GetMapping
 	public List getAll() {
 		return srv.getByProjection(FilmDTO.class);

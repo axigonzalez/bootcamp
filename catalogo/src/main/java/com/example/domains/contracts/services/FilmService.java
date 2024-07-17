@@ -9,4 +9,5 @@ import com.example.domains.entities.Film;
 
 public interface FilmService extends ProjectionDomainService<Film, Integer>, SpecificationDomainService<Film, Integer> {
 	List<Film> novedades(Timestamp fecha);
+	
 }
